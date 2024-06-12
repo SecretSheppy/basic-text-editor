@@ -1,15 +1,19 @@
 :root {
-    --window-border: solid 4px #1b3b17;
+    --window-border: solid 2px #1b3b17;
     --window-border-radius: 0;
-    --window-background-color: rgba(54, 53, 48, 0.9);
+    --window-background-color: rgba(54, 53, 48, 0.95);
 
     --terminal-background: rgba(29, 40, 14, 0.8);
     --terminal-font-family: 'Courier New', Courier, monospace;
     --terminal-font-size: 14px;
     --terminal-text-color: #ad994a;
+    --terminal-scrollbar-color: #527541;
+    --terminal-scrollbar-hover-color: #415d31;
 
     --editor-text-font-family: 'Courier New', Courier, monospace;
     --editor-text-font-size: 14px;
     --editor-font-color: #d3bb67;
     --editor-background-color: transparent;
+    --editor-scrollbar-color: #527541;
+    --editor-scrollbar-hover-color: #415d31;
 }

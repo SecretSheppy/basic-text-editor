@@ -4,6 +4,14 @@
     box-sizing: border-box;
 }
 
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
 .window {
     width: 100vw;
     height: 100vh;
@@ -36,6 +44,18 @@
         flex-direction: column;
         overflow: auto;
         height: 100%;
+
+        &::-webkit-scrollbar-thumb {
+            background: var(--terminal-scrollbar-color);
+            border-radius: 10px;
+            cursor: default;
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+            opacity: 0.6;
+            background: var(--terminal-scrollbar-hover-color);
+            cursor: default;
+        }
 
         & > .terminal-input {
             flex-shrink: 0;
@@ -80,6 +100,17 @@
 
         &::placeholder {
             color: var(--editor-font-color);
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: var(--editor-scrollbar-color);
+            border-radius: 10px;
+            cursor: default;
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+            background: var(--editor-scrollbar-hover-color);
+            cursor: default;
         }
     }
 }

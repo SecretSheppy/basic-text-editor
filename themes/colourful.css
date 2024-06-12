@@ -7,9 +7,13 @@
     --terminal-font-family: 'Courier New', Courier, monospace;
     --terminal-font-size: 14px;
     --terminal-text-color: #ffffff;
+    --terminal-scrollbar-color: #ffdada;
+    --terminal-scrollbar-hover-color: #ffc6c6;
 
     --editor-text-font-family: 'Courier New', Courier, monospace;
     --editor-text-font-size: 14px;
     --editor-font-color: #fff;
     --editor-background-color: transparent;
+    --editor-scrollbar-color: #ffdada;
+    --editor-scrollbar-hover-color: #ffc6c6;
 }
