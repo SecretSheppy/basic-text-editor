@@ -9,6 +9,7 @@ let commandHistory = {
     data: [],
     index: 0,
 };
+let state = 'normal';
 
 const commandHandlers = {
     exit: hideTerminal,
@@ -204,6 +205,18 @@ document.addEventListener('keydown', function (event) {
             hideTerminal();
         }
     }
+
+    if (event.ctrlKey && event.key === 'ArrowUp') {
+        nw.Window.get().maximize();
+    }
+
+    if (event.ctrlKey && event.key === 'ArrowDown') {
+        if (state === 'maximized') {
+            nw.Window.get().restore();
+        } else {
+            nw.Window.get().minimize();
+        }
+    }
 });
 
 // Terminal event listeners
@@ -244,6 +257,14 @@ document.getElementById('editor-text').addEventListener('keydown', function (eve
 
 nw.Window.get().on('focus', function () {
     focusEditor();
+});
+
+nw.Window.get().on('maximize', function () {
+    state = 'maximized';
+});
+
+nw.Window.get().on('restore', function () {
+    state = 'normal';
 });
 
 document.addEventListener('DOMContentLoaded', function () {

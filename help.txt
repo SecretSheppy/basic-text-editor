@@ -23,3 +23,5 @@ Key Bindings
  - Ctrl + q: Quit the program (doesn't save the currently open file)
  - Ctrl + <space>: Toggles the terminal
  - Ctrl + s: Save the current file (if it has already been saved)
+ - Ctrl + ArrowUp: maximize the editor on the current screen
+ - Ctrl + ArrowDown: restore the editor to its original size (if maximized), or minimize the editor
