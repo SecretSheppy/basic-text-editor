@@ -5,13 +5,13 @@
 
     --terminal-background: rgba(29, 40, 14, 0.8);
     --terminal-font-family: 'Courier New', Courier, monospace;
-    --terminal-font-size: 14px;
+    --terminal-font-size: 15px;
     --terminal-text-color: #ad994a;
     --terminal-scrollbar-color: #527541;
     --terminal-scrollbar-hover-color: #415d31;
 
     --editor-text-font-family: 'Courier New', Courier, monospace;
-    --editor-text-font-size: 14px;
+    --editor-text-font-size: 15px;
     --editor-font-color: #d3bb67;
     --editor-background-color: transparent;
     --editor-scrollbar-color: #527541;
