@@ -3,7 +3,7 @@
     "version": "1.0",
     "main": "editor.html",
     "window": {
-        "icon": "",
+        "icon": "icon.png",
         "frame": false,
         "toolbar": false,
         "width": 1100,
