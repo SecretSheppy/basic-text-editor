@@ -1,0 +1,15 @@
+:root {
+    --window-border: solid 4px #1b3b17;
+    --window-border-radius: 0;
+    --window-background-color: rgba(54, 53, 48, 0.9);
+
+    --terminal-background: rgba(29, 40, 14, 0.8);
+    --terminal-font-family: 'Courier New', Courier, monospace;
+    --terminal-font-size: 14px;
+    --terminal-text-color: #ad994a;
+
+    --editor-text-font-family: 'Courier New', Courier, monospace;
+    --editor-text-font-size: 14px;
+    --editor-font-color: #d3bb67;
+    --editor-background-color: transparent;
+}

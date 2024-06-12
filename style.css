@@ -1,0 +1,85 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.window {
+    width: 100vw;
+    height: 100vh;
+    border: var(--window-border);
+    border-radius: var(--window-border-radius);
+    background: var(--window-background-color);
+    position: relative;
+}
+
+.terminal {
+    position: absolute;
+    width: 100%;
+    background: var(--terminal-background);
+    height: 400px;
+    bottom: 0;
+    padding: 20px;
+
+    & .terminal-text {
+        font-family: var(--terminal-font-family);
+        font-size: var(--terminal-font-size);
+        color: var(--terminal-text-color);
+    }
+
+    & .terminal-empty-line {
+        height: var(--terminal-font-family);
+    }
+
+    & > .terminal-content-wrapper {
+        display: flex;
+        flex-direction: column;
+        overflow: auto;
+        height: 100%;
+
+        & > .terminal-input {
+            flex-shrink: 0;
+            width: 100%;
+            display: flex;
+            align-items: center;
+
+            & > .command-path  {
+                flex-shrink: 0;
+
+                &::after {
+                    content: " $\00a0";
+                }
+            }
+
+            & > .terminal-text-input {
+                width: 100%;
+                background: transparent;
+                border: none;
+                outline: none;
+            }
+        }
+    }
+}
+
+.editor-wrapper {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+
+    & > .editor-text {
+        width: 100%;
+        height: 100%;
+        font-family: var(--editor-text-font-family);
+        font-size: var(--editor-text-font-size);
+        color: var(--editor-font-color) !important;
+        background-color: var(--editor-background-color);
+        border: none;
+        outline: none;
+        resize: none;
+        overflow: auto;
+
+        &::placeholder {
+            color: var(--editor-font-color);
+        }
+    }
+}

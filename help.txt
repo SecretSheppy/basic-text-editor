@@ -1,0 +1,25 @@
+
+================================================================================
+HELP MENU
+================================================================================
+
+Commands:
+ - help: Display this help menu
+ - exit: close the terminal
+ - quit: Quit the program (doesn't save the currently open file)
+ - clear | cls: clear the terminal history
+ - ls: list the files in the current directory
+ - cd <directory>: change the current directory
+ - open <file>: open a file in the editor
+ - save <file>: save the current text in the editor to a file
+ - rm <file>: remove a file
+ - mkdir <directory>: create a new directory
+ - rmdir <directory>: remove a directory
+ - explorer: open the file explorer in the current directory
+ - themes: list the available themes
+ - theme <theme>: change the theme (use with --save to save the theme change)
+
+Key Bindings
+ - Ctrl + q: Quit the program (doesn't save the currently open file)
+ - Ctrl + <space>: Toggles the terminal
+ - Ctrl + s: Save the current file (if it has already been saved)

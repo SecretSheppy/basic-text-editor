@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Basic Text Editor</title>
+    <link rel="stylesheet" href="themes/default.css" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="basic-text-editor.js" defer></script>
+</head>
+<body class="window">
+
+<!-- Used to execute basic commands to search and save files -->
+<div id="command-prompt" class="terminal">
+    <div id="terminal-content" class="terminal-content-wrapper">
+        <div id="terminal-history">
+        </div>
+        <div class="terminal-input">
+            <p id="command-path" class="terminal-text command-path">c:/hi</p>
+            <input id="command-input" class="terminal-text-input terminal-text" />
+        </div>
+    </div>
+</div>
+
+<!-- Used to display and edit the text content -->
+<div id="editor" class="editor-wrapper">
+    <textarea id="editor-text" class="editor-text" placeholder="Space, the final frontier..."></textarea>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,18 @@
+:root {
+    --primary-color: #646b8d;
+    --secondary-color: rgba(41, 45, 62, 0.95);
+
+    --window-border: solid 2px var(--primary-color);
+    --window-border-radius: 0;
+    --window-background-color: var(--secondary-color);
+
+    --terminal-background: rgba(35, 38, 59, 0.95);
+    --terminal-font-family: 'Courier New', Courier, monospace;
+    --terminal-font-size: 14px;
+    --terminal-text-color: #ae8c55;
+
+    --editor-text-font-family: 'Courier New', Courier, monospace;
+    --editor-text-font-size: 14px;
+    --editor-font-color: #fff;
+    --editor-background-color: transparent;
+}
