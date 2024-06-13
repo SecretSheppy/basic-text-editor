@@ -13,5 +13,5 @@
         "transparent": true,
         "position": "center"
     },
-    "chromium-args": "--disable-pinch"
+    "chromium-args": "--mixed-context --disable-pinch"
 }

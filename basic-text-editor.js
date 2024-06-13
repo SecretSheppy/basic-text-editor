@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const keyBindings = require('./key-bindings.js');
 
 let cwd = process.cwd().replaceAll('\\', '/');
 let cwf = '';
@@ -225,21 +226,21 @@ function toggleTerminal () {
 
 // Main window events listeners
 document.addEventListener('keydown', function (event) {
-    if (event.ctrlKey && event.key === 'q') {
+    if (keyBindings.quit(event)) {
         event.preventDefault();
         nw.App.quit();
     }
 
-    if (event.ctrlKey && event.key === ' ') {
+    if (keyBindings.toggleTerminal(event)) {
         event.preventDefault();
         toggleTerminal();
     }
 
-    if (event.ctrlKey && event.key === 'ArrowUp') {
+    if (keyBindings.maximize(event)) {
         nw.Window.get().maximize();
     }
 
-    if (event.ctrlKey && event.key === 'ArrowDown') {
+    if (keyBindings.restoreAndMinimize(event)) {
         if (state === 'maximized') {
             nw.Window.get().restore();
         } else {
@@ -250,7 +251,7 @@ document.addEventListener('keydown', function (event) {
 
 // Terminal event listeners
 document.getElementById('command-input').addEventListener('keydown', function (event) {
-    if (event.key === 'Enter') {
+    if (keyBindings.submitCommand(event)) {
         event.preventDefault();
         let commandElement = document.getElementById('command-input');
         handleCommand(commandElement.value);
@@ -259,13 +260,13 @@ document.getElementById('command-input').addEventListener('keydown', function (e
         commandHistory.index = 0;
     }
 
-    if (event.key === 'ArrowUp' && commandHistory.index < commandHistory.data.length && !event.ctrlKey) {
+    if (keyBindings.upCommandHistory(event) && commandHistory.index < commandHistory.data.length) {
         event.preventDefault();
         let commandElement = document.getElementById('command-input');
         commandElement.value = commandHistory.data[(commandHistory.index++)];
     }
 
-    if (event.key === 'ArrowDown' && commandHistory.index >= 0 && commandHistory.data.length > 0 && !event.ctrlKey) {
+    if (keyBindings.downCommandHistory(event) && commandHistory.index >= 0 && commandHistory.data.length > 0) {
         event.preventDefault();
         let commandElement = document.getElementById('command-input');
         commandElement.value = commandHistory.data[(commandHistory.index--)];
@@ -278,13 +279,13 @@ document.getElementById('command-prompt').addEventListener('click', function () 
 
 // Editor event listeners
 document.getElementById('editor-text').addEventListener('keydown', function (event) {
-    if (event.ctrlKey && event.key === 's' && cwf !== '') {
+    if (keyBindings.saveFile(event) && cwf !== '') {
         event.preventDefault();
         fs.writeFileSync(cwf, document.getElementById('editor-text').value, 'utf8');
         writeTerminalLine(`File saved: ${cwf}`);
         hideNotSavedIndicator();
         showAndFocusTerminal();
-    } else if (event.ctrlKey && event.key === 'n') {
+    } else if (keyBindings.newFile(event)) {
         event.preventDefault();
         newDocument();
     } else {
