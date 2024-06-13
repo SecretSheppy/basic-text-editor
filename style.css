@@ -47,7 +47,6 @@
 
         &::-webkit-scrollbar-thumb {
             background: var(--terminal-scrollbar-color);
-            border-radius: 10px;
             cursor: default;
         }
 
@@ -104,7 +103,6 @@
 
         &::-webkit-scrollbar-thumb {
             background: var(--editor-scrollbar-color);
-            border-radius: 10px;
             cursor: default;
         }
 
