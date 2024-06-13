@@ -3,6 +3,7 @@
 
     module.exports = exports = {
         cwd: '',
-        cwf: ''
+        cwf: '',
+        windowState: 'normal'
     }
 })

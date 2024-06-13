@@ -13,7 +13,6 @@ let commandHistory = {
     data: [],
     index: 0,
 };
-let state = 'normal';
 
 const commandHandlers = {
     exit: terminal.hide,
@@ -209,7 +208,7 @@ document.addEventListener('keydown', function (event) {
     }
 
     if (keyBindings.restoreAndMinimize(event)) {
-        if (state === 'maximized') {
+        if (environment.windowState === 'maximized') {
             nw.Window.get().restore();
         } else {
             nw.Window.get().minimize();
@@ -235,11 +234,11 @@ nw.Window.get().on('focus', function () {
 });
 
 nw.Window.get().on('maximize', function () {
-    state = 'maximized';
+    environment.windowState = 'maximized';
 });
 
 nw.Window.get().on('restore', function () {
-    state = 'normal';
+    environment.windowState = 'normal';
 });
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -250,3 +249,4 @@ document.addEventListener('DOMContentLoaded', function () {
 
 terminal.addListeners();
 contextmenu.addListeners();
+environment.addListeners();
