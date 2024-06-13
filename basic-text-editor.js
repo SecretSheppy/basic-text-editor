@@ -249,4 +249,3 @@ document.addEventListener('DOMContentLoaded', function () {
 
 terminal.addListeners();
 contextmenu.addListeners();
-environment.addListeners();
