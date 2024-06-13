@@ -17,6 +17,16 @@
     --editor-scrollbar-color: #ffdada;
     --editor-scrollbar-hover-color: #ffc6c6;
     --editor-saved-indicator-color: #ffdada;
+
+    --context-menu-border: none;
+    --context-menu-main-background: #ffbc9f;
+    --context-menu-font-family: 'Courier New', Courier, monospace;
+    --context-menu-font-size: 15px;
+    --context-menu-text-color: #000;
+    --context-menu-main-hover-background: #ff9d7f;
+    --context-menu-main-hover-text-color: #fff;
+    --context-menu-sub-background: #fdc8af;
+    --context-menu-sub-text-color: #000;
 }
 
 ::selection {

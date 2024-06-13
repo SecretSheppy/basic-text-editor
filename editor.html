@@ -9,6 +9,25 @@
 </head>
 <body class="window">
 
+<!-- Context Menu -->
+<div id="context-menu" class="context-menu">
+    <!-- Toggle Terminal, Save, New, Quit, keybindings -->
+    <div class="menu-items">
+        <div class="menu-item" id="cmtt">Toggle Terminal</div>
+        <div class="menu-item" id="cmsv">Save</div>
+        <div class="menu-item" id="cmnw">New</div>
+        <div class="menu-item" id="cmkb">Key Bindings</div>
+        <div class="menu-item" id="cmqt">Quit</div>
+    </div>
+    <div class="key-bindings" id="key-bindings">
+        <p class="binding"><span class="key">Ctrl</span> + <span class="key">Q</span> Quit the program</p>
+        <p class="binding"><span class="key">Ctrl</span> + <span class="key">Space</span> Toggle the terminal</p>
+        <p class="binding"><span class="key">Ctrl</span> + <span class="key">S</span> Save current file</p>
+        <p class="binding"><span class="key">Ctrl</span> + <span class="key">ArrowUp</span> Maximize editor</p>
+        <p class="binding"><span class="key">Ctrl</span> + <span class="key">ArrowDown</span> Restore | Minimize editor</p>
+    </div>
+</div>
+
 <!-- Used to execute basic commands to search and save files -->
 <div id="command-prompt" class="terminal">
     <div id="terminal-content" class="terminal-content-wrapper">

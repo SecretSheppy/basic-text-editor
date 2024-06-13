@@ -21,6 +21,50 @@
     position: relative;
 }
 
+.context-menu {
+    position: absolute;
+    display: none;
+    border: var(--context-menu-border);
+
+    & > .menu-items {
+        display: flex;
+        flex-direction: column;
+        font-family: var(--context-menu-font-family);
+        font-size: var(--context-menu-font-size);
+        background: var(--context-menu-main-background);
+        width: 180px;
+
+        & > .menu-item {
+            padding: 3px 5px;
+            cursor: default;
+            color: var(--context-menu-text-color);
+
+            &:hover {
+                background: var(--context-menu-main-hover-background);
+                color: var(--context-menu-main-hover-text-color);
+            }
+        }
+    }
+
+    & > .key-bindings {
+        background: var(--context-menu-sub-background);
+        font-family: var(--context-menu-font-family);
+        font-size: var(--context-menu-font-size);
+        flex-direction: column;
+        display: none;
+
+        & > .binding {
+            padding: 3px 5px;
+            cursor: default;
+            color: var(--context-menu-sub-text-color);
+
+            & > .key {
+                font-weight: bold;
+            }
+        }
+    }
+}
+
 .terminal {
     position: absolute;
     width: 100%;

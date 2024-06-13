@@ -215,6 +215,14 @@ function hideNotSavedIndicator() {
     document.getElementById('not-saved-indicator').style.display = 'none';
 }
 
+function toggleTerminal () {
+    if (document.getElementById('command-prompt').style.display === 'none') {
+        showAndFocusTerminal();
+    } else {
+        hideTerminal();
+    }
+}
+
 // Main window events listeners
 document.addEventListener('keydown', function (event) {
     if (event.ctrlKey && event.key === 'q') {
@@ -224,11 +232,7 @@ document.addEventListener('keydown', function (event) {
 
     if (event.ctrlKey && event.key === ' ') {
         event.preventDefault();
-        if (document.getElementById('command-prompt').style.display === 'none') {
-            showAndFocusTerminal();
-        } else {
-            hideTerminal();
-        }
+        toggleTerminal();
     }
 
     if (event.ctrlKey && event.key === 'ArrowUp') {
@@ -288,9 +292,53 @@ document.getElementById('editor-text').addEventListener('keydown', function (eve
     }
 });
 
+// context menu event listeners
 document.addEventListener('contextmenu', function (event) {
     event.preventDefault();
-    // TODO: Show context menu
+    let contextMenu = document.getElementById('context-menu');
+    contextMenu.style.display = 'flex';
+    contextMenu.style.top = `${event.clientY}px`;
+    if (event.clientY > window.innerHeight - 100) {
+        contextMenu.style.top = `${event.clientY - 100}px`;
+    }
+    contextMenu.style.left = `${event.clientX}px`;
+    if (event.clientX > window.innerWidth - 150) {
+        contextMenu.style.left = `${event.clientX - 150}px`;
+    }
+});
+
+document.addEventListener('click', function () {
+    document.getElementById('context-menu').style.display = 'none';
+});
+
+document.getElementById('cmkb').addEventListener('mouseover', function (event) {
+    if (event.clientX < window.innerWidth - 200) {
+        document.getElementById('key-bindings').style.display = 'flex';
+    }
+});
+
+document.getElementById('cmkb').addEventListener('mouseout', function () {
+    document.getElementById('key-bindings').style.display = 'none';
+});
+
+document.getElementById('cmtt').addEventListener('click', function () {
+    toggleTerminal();
+});
+
+document.getElementById('cmsv').addEventListener('click', function () {
+    if (cwf !== '') {
+        fs.writeFileSync(cwf, document.getElementById('editor-text').value, 'utf8');
+        writeTerminalLine(`File saved: ${cwf}`);
+        hideNotSavedIndicator();
+    }
+});
+
+document.getElementById('cmnw').addEventListener('click', function () {
+    newDocument();
+});
+
+document.getElementById('cmqt').addEventListener('click', function () {
+    nw.App.quit();
 });
 
 nw.Window.get().on('focus', function () {
