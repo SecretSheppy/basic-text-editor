@@ -216,34 +216,6 @@ document.addEventListener('keydown', function (event) {
     }
 });
 
-// Terminal event listeners
-document.getElementById('command-input').addEventListener('keydown', function (event) {
-    if (keyBindings.submitCommand(event)) {
-        event.preventDefault();
-        let commandElement = document.getElementById('command-input');
-        handleCommand(commandElement.value);
-        commandElement.value = '';
-        terminal.scrollToBottom();
-        commandHistory.index = 0;
-    }
-
-    if (keyBindings.upCommandHistory(event) && commandHistory.index < commandHistory.data.length) {
-        event.preventDefault();
-        let commandElement = document.getElementById('command-input');
-        commandElement.value = commandHistory.data[(commandHistory.index++)];
-    }
-
-    if (keyBindings.downCommandHistory(event) && commandHistory.index >= 0 && commandHistory.data.length > 0) {
-        event.preventDefault();
-        let commandElement = document.getElementById('command-input');
-        commandElement.value = commandHistory.data[(commandHistory.index--)];
-    }
-});
-
-document.getElementById('command-prompt').addEventListener('click', function () {
-    document.getElementById('command-input').focus();
-});
-
 // Editor event listeners
 document.getElementById('editor-text').addEventListener('keydown', function (event) {
     if (keyBindings.saveFile(event) && cwf !== '') {
@@ -275,4 +247,5 @@ document.addEventListener('DOMContentLoaded', function () {
     config();
 });
 
+terminal.addListeners();
 contextmenu.addListeners();
