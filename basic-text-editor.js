@@ -147,6 +147,8 @@ function changeTheme(args) {
 
 function focusEditor() {
     document.getElementById('editor-text').focus();
+    document.getElementById('editor-text').setSelectionRange(0, 0);
+    document.getElementById('editor-text').scrollTop = 0;
 }
 
 function showAndFocusTerminal() {
