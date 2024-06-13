@@ -26,7 +26,8 @@ const commandHandlers = {
     rmdir: (args) => removeDirectory(args[0]),
     explorer: () => nw.Shell.openExternal(cwd),
     themes: listThemes,
-    theme: (args) => changeTheme(args)
+    theme: (args) => changeTheme(args),
+    new: createNewDocument
 };
 
 function handleCommand(command) {
@@ -190,6 +191,16 @@ function showHelp() {
     });
 }
 
+function newDocument() {
+    document.getElementById('command-input').value = 'new';
+    showAndFocusTerminal();
+}
+
+function createNewDocument() {
+    document.getElementById('editor-text').value = '';
+    cwf = '';
+}
+
 // Main window events listeners
 document.addEventListener('keydown', function (event) {
     if (event.ctrlKey && event.key === 'q') {
@@ -253,6 +264,16 @@ document.getElementById('editor-text').addEventListener('keydown', function (eve
         event.preventDefault();
         // TODO: Save contents of file
     }
+
+    if (event.ctrlKey && event.key === 'n') {
+        event.preventDefault();
+        newDocument();
+    }
+});
+
+document.addEventListener('contextmenu', function (event) {
+    event.preventDefault();
+    // TODO: Show context menu
 });
 
 nw.Window.get().on('focus', function () {
