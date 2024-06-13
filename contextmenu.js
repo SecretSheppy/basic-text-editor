@@ -2,6 +2,7 @@
     'use strict';
 
     const environment = require('./environment.js');
+    const terminal = require('./terminal.js');
 
     const CONTEXT_MENU_X_OFFSET = 150;
     const CONTEXT_MENU_Y_OFFSET = 100;
@@ -85,7 +86,7 @@
         });
 
         toggleTerminalButton.addEventListener('click', function () {
-            toggleTerminal();
+            terminal.toggle();
         });
 
         saveButton.addEventListener('click', function () {
