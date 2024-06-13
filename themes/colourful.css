@@ -17,3 +17,8 @@
     --editor-scrollbar-color: #ffdada;
     --editor-scrollbar-hover-color: #ffc6c6;
 }
+
+::selection {
+    background: #fff;
+    color: rgba(252, 114, 114, 0.9);
+}
