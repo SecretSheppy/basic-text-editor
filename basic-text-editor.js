@@ -243,13 +243,13 @@ document.getElementById('command-input').addEventListener('keydown', function (e
         commandHistory.index = 0;
     }
 
-    if (event.key === 'ArrowUp' && commandHistory.index < commandHistory.data.length) {
+    if (event.key === 'ArrowUp' && commandHistory.index < commandHistory.data.length && !event.ctrlKey) {
         event.preventDefault();
         let commandElement = document.getElementById('command-input');
         commandElement.value = commandHistory.data[(commandHistory.index++)];
     }
 
-    if (event.key === 'ArrowDown' && commandHistory.index >= 0 && commandHistory.data.length > 0) {
+    if (event.key === 'ArrowDown' && commandHistory.index >= 0 && commandHistory.data.length > 0 && !event.ctrlKey) {
         event.preventDefault();
         let commandElement = document.getElementById('command-input');
         commandElement.value = commandHistory.data[(commandHistory.index--)];
