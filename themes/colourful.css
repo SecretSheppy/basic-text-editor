@@ -16,6 +16,7 @@
     --editor-background-color: transparent;
     --editor-scrollbar-color: #ffdada;
     --editor-scrollbar-hover-color: #ffc6c6;
+    --editor-saved-indicator-color: #ffdada;
 }
 
 ::selection {

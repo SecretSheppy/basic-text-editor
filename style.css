@@ -85,6 +85,14 @@
     height: 100%;
     padding: 20px;
 
+    & > .saved-indicator {
+        padding: 3px;
+        background: var(--editor-saved-indicator-color);
+        position: absolute;
+        right: 30px;
+        top: 20px;
+    }
+
     & > .editor-text {
         width: 100%;
         height: 100%;

@@ -72,6 +72,7 @@ function openFile(file) {
         document.getElementById('editor-text').value =
             fs.readFileSync(cwd + '/' + file, 'utf8');
         cwf = cwd + '/' + file;
+        hideNotSavedIndicator();
     } catch (e) {
         writeTerminalLine(`File not found: ${cwd}/${file}`);
     }
@@ -201,6 +202,17 @@ function newDocument() {
 function createNewDocument() {
     document.getElementById('editor-text').value = '';
     cwf = '';
+    hideNotSavedIndicator();
+}
+
+function showNotSavedIndicator() {
+    document.title = `Text Editor - *${cwf}`;
+    document.getElementById('not-saved-indicator').style.display = 'block';
+}
+
+function hideNotSavedIndicator() {
+    document.title = `Text Editor - ${cwf}`;
+    document.getElementById('not-saved-indicator').style.display = 'none';
 }
 
 // Main window events listeners
@@ -266,12 +278,13 @@ document.getElementById('editor-text').addEventListener('keydown', function (eve
         event.preventDefault();
         fs.writeFileSync(cwf, document.getElementById('editor-text').value, 'utf8');
         writeTerminalLine(`File saved: ${cwf}`);
+        hideNotSavedIndicator();
         showAndFocusTerminal();
-    }
-
-    if (event.ctrlKey && event.key === 'n') {
+    } else if (event.ctrlKey && event.key === 'n') {
         event.preventDefault();
         newDocument();
+    } else {
+        showNotSavedIndicator();
     }
 });
 
