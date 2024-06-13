@@ -3,11 +3,12 @@
 const fs = require('fs');
 const path = require('path');
 const keyBindings = require('./key-bindings.js');
+const environment = require('./environment.js');
 const contextmenu = require('./contextmenu.js');
 const terminal = require('./terminal.js');
 
-let cwd = process.cwd().replaceAll('\\', '/');
-let cwf = '';
+environment.cwd = process.cwd().replaceAll('\\', '/');
+
 let commandHistory = {
     data: [],
     index: 0,
@@ -20,21 +21,21 @@ const commandHandlers = {
     help: showHelp,
     cls: terminal.clear,
     clear: terminal.clear,
-    ls: () => scanDirectory(cwd),
+    ls: () => scanDirectory(environment.cwd),
     cd: (args) => currentDirectory(args[0]),
     open: (args) => openFile(args[0]),
     save: (args) => saveFile(args[0]),
     rm: (args) => removeFile(args[0]),
     mkdir: (args) => makeDirectory(args[0]),
     rmdir: (args) => removeDirectory(args[0]),
-    explorer: () => nw.Shell.openExternal(cwd),
+    explorer: () => nw.Shell.openExternal(environment.cwd),
     themes: listThemes,
     theme: (args) => changeTheme(args),
     new: createNewDocument
 };
 
 function handleCommand(command) {
-    terminal.writeLine(`${cwd} $ ${command}`);
+    terminal.writeLine(`${environment.cwd} $ ${command}`);
 
     let commandChain = command.trim().split(' ');
     let commandName = commandChain[0];
@@ -60,11 +61,11 @@ function scanDirectory(path) {
 }
 
 function currentDirectory(newPath) {
-    let tempDir = cwd + '/' + newPath;
+    let tempDir = environment.cwd + '/' + newPath;
 
     if (fs.existsSync(tempDir)) {
-        cwd = path.resolve(tempDir).replaceAll('\\', '/');
-        terminal.setCwd(cwd);
+        environment.cwd = path.resolve(tempDir).replaceAll('\\', '/');
+        terminal.setCwd(environment.cwd);
     } else {
         terminal.writeLine(`Directory not found: ${newPath}`);
     }
@@ -73,51 +74,51 @@ function currentDirectory(newPath) {
 function openFile(file) {
     try {
         document.getElementById('editor-text').value =
-            fs.readFileSync(cwd + '/' + file, 'utf8');
-        cwf = cwd + '/' + file;
+            fs.readFileSync(environment.cwd + '/' + file, 'utf8');
+        environment.cwf = environment.cwd + '/' + file;
         hideNotSavedIndicator();
     } catch (e) {
-        terminal.writeLine(`File not found: ${cwd}/${file}`);
+        terminal.writeLine(`File not found: ${environment.cwd}/${file}`);
     }
 }
 
 function saveFile(fileName) {
     try {
-        fs.writeFileSync(cwd + '/' + fileName,
+        fs.writeFileSync(environment.cwd + '/' + fileName,
             document.getElementById('editor-text').value, 'utf8');
-        cwf = cwd + '/' + fileName;
-        terminal.writeLine(`File saved: ${cwf}`);
+        environment.cwf = environment.cwd + '/' + fileName;
+        terminal.writeLine(`File saved: ${environment.cwf}`);
         hideNotSavedIndicator();
     } catch (e) {
-        terminal.writeLine(`Error saving file: ${cwd}/${fileName}`);
+        terminal.writeLine(`Error saving file: ${environment.cwd}/${fileName}`);
     }
 }
 
 function removeFile(fileName) {
     try {
-        fs.unlinkSync(cwd + '/' + fileName);
-        terminal.writeLine(`File removed: ${cwd}/${fileName}`);
-        cwf = '';
+        fs.unlinkSync(environment.cwd + '/' + fileName);
+        terminal.writeLine(`File removed: ${environment.cwd}/${fileName}`);
+        environment.cwf = '';
     } catch (e) {
-        terminal.writeLine(`Error removing file: ${cwd}/${fileName}`);
+        terminal.writeLine(`Error removing file: ${environment.cwd}/${fileName}`);
     }
 }
 
 function makeDirectory(dirName) {
     try {
-        fs.mkdirSync(cwd + '/' + dirName);
-        terminal.writeLine(`Directory created: ${cwd}/${dirName}`);
+        fs.mkdirSync(environment.cwd + '/' + dirName);
+        terminal.writeLine(`Directory created: ${environment.cwd}/${dirName}`);
     } catch (e) {
-        terminal.writeLine(`Error creating directory: ${cwd}/${dirName}`);
+        terminal.writeLine(`Error creating directory: ${environment.cwd}/${dirName}`);
     }
 }
 
 function removeDirectory(dirName) {
     try {
-        fs.rmdirSync(cwd + '/' + dirName);
-        terminal.writeLine(`Directory removed: ${cwd}/${dirName}`);
+        fs.rmdirSync(environment.cwd + '/' + dirName);
+        terminal.writeLine(`Directory removed: ${environment.cwd}/${dirName}`);
     } catch (e) {
-        terminal.writeLine(`Error removing directory: ${cwd}/${dirName}`);
+        terminal.writeLine(`Error removing directory: ${environment.cwd}/${dirName}`);
     }
 }
 
@@ -170,23 +171,23 @@ function newDocument() {
 
 function createNewDocument() {
     document.getElementById('editor-text').value = '';
-    cwf = '';
+    environment.cwf = '';
     hideNotSavedIndicator();
 }
 
 function showNotSavedIndicator() {
-    document.title = `Text Editor - *${cwf}`;
+    document.title = `Text Editor - *${environment.cwf}`;
     document.getElementById('not-saved-indicator').style.display = 'block';
 }
 
 function hideNotSavedIndicator() {
-    document.title = `Text Editor - ${cwf}`;
+    document.title = `Text Editor - ${environment.cwf}`;
     document.getElementById('not-saved-indicator').style.display = 'none';
 }
 
 function saveCwf() {
-    fs.writeFileSync(cwf, document.getElementById('editor-text').value, 'utf8');
-    terminal.writeLine(`File saved: ${cwf}`);
+    fs.writeFileSync(environment.cwf, document.getElementById('editor-text').value, 'utf8');
+    terminal.writeLine(`File saved: ${environment.cwf}`);
     hideNotSavedIndicator();
     terminal.showAndFocus();
 }
@@ -218,7 +219,7 @@ document.addEventListener('keydown', function (event) {
 
 // Editor event listeners
 document.getElementById('editor-text').addEventListener('keydown', function (event) {
-    if (keyBindings.saveFile(event) && cwf !== '') {
+    if (keyBindings.saveFile(event) && environment.cwf !== '') {
         event.preventDefault();
         saveCwf();
     } else if (keyBindings.newFile(event)) {
@@ -242,7 +243,7 @@ nw.Window.get().on('restore', function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-    terminal.setCwd(cwd);
+    terminal.setCwd(environment.cwd);
     terminal.hide();
     config();
 });

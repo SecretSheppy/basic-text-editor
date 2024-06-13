@@ -1,6 +1,8 @@
 (function () {
     'use strict';
 
+    const environment = require('./environment.js');
+
     const CONTEXT_MENU_X_OFFSET = 150;
     const CONTEXT_MENU_Y_OFFSET = 100;
     const KEYBINDINGS_MENU_OFFSET = 200;
@@ -87,7 +89,7 @@
         });
 
         saveButton.addEventListener('click', function () {
-            if (cwf !== '') {
+            if (environment.cwf !== '') {
                 saveCwf();
             }
         });
