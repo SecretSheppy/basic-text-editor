@@ -17,6 +17,7 @@ Commands:
  - explorer: open the file explorer in the current directory
  - themes: list the available themes
  - theme <theme>: change the theme (use with --save to save the theme change)
+ - new: creates a new document in the editor
 
 Key Bindings
  - Ctrl + q: Quit the program (doesn't save the currently open file)
