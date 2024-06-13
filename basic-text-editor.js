@@ -4,6 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const keyBindings = require('./key-bindings.js');
 const contextmenu = require('./contextmenu.js');
+const terminal = require('./terminal.js');
 
 let cwd = process.cwd().replaceAll('\\', '/');
 let cwf = '';
@@ -14,11 +15,11 @@ let commandHistory = {
 let state = 'normal';
 
 const commandHandlers = {
-    exit: hideTerminal,
+    exit: terminal.hide,
     quit: () => nw.App.quit(),
     help: showHelp,
-    cls: clearTerminal,
-    clear: clearTerminal,
+    cls: terminal.clear,
+    clear: terminal.clear,
     ls: () => scanDirectory(cwd),
     cd: (args) => currentDirectory(args[0]),
     open: (args) => openFile(args[0]),
@@ -33,7 +34,7 @@ const commandHandlers = {
 };
 
 function handleCommand(command) {
-    writeTerminalLine(`${cwd} $ ${command}`);
+    terminal.writeLine(`${cwd} $ ${command}`);
 
     let commandChain = command.trim().split(' ');
     let commandName = commandChain[0];
@@ -41,7 +42,7 @@ function handleCommand(command) {
     if (commandName in commandHandlers) {
         commandHandlers[commandName](commandChain.slice(1));
     } else {
-        writeTerminalLine(`Command not found: ${commandName}`);
+        terminal.writeLine(`Command not found: ${commandName}`);
     }
 
     commandHistory.data.unshift(command);
@@ -54,7 +55,7 @@ function config() {
 
 function scanDirectory(path) {
     fs.readdirSync(path).forEach(function (file) {
-        writeTerminalLine(file);
+        terminal.writeLine(file);
     });
 }
 
@@ -63,9 +64,9 @@ function currentDirectory(newPath) {
 
     if (fs.existsSync(tempDir)) {
         cwd = path.resolve(tempDir).replaceAll('\\', '/');
-        setTerminalCwd(cwd);
+        terminal.setCwd(cwd);
     } else {
-        writeTerminalLine(`Directory not found: ${newPath}`);
+        terminal.writeLine(`Directory not found: ${newPath}`);
     }
 }
 
@@ -76,7 +77,7 @@ function openFile(file) {
         cwf = cwd + '/' + file;
         hideNotSavedIndicator();
     } catch (e) {
-        writeTerminalLine(`File not found: ${cwd}/${file}`);
+        terminal.writeLine(`File not found: ${cwd}/${file}`);
     }
 }
 
@@ -85,45 +86,45 @@ function saveFile(fileName) {
         fs.writeFileSync(cwd + '/' + fileName,
             document.getElementById('editor-text').value, 'utf8');
         cwf = cwd + '/' + fileName;
-        writeTerminalLine(`File saved: ${cwf}`);
+        terminal.writeLine(`File saved: ${cwf}`);
         hideNotSavedIndicator();
     } catch (e) {
-        writeTerminalLine(`Error saving file: ${cwd}/${fileName}`);
+        terminal.writeLine(`Error saving file: ${cwd}/${fileName}`);
     }
 }
 
 function removeFile(fileName) {
     try {
         fs.unlinkSync(cwd + '/' + fileName);
-        writeTerminalLine(`File removed: ${cwd}/${fileName}`);
+        terminal.writeLine(`File removed: ${cwd}/${fileName}`);
         cwf = '';
     } catch (e) {
-        writeTerminalLine(`Error removing file: ${cwd}/${fileName}`);
+        terminal.writeLine(`Error removing file: ${cwd}/${fileName}`);
     }
 }
 
 function makeDirectory(dirName) {
     try {
         fs.mkdirSync(cwd + '/' + dirName);
-        writeTerminalLine(`Directory created: ${cwd}/${dirName}`);
+        terminal.writeLine(`Directory created: ${cwd}/${dirName}`);
     } catch (e) {
-        writeTerminalLine(`Error creating directory: ${cwd}/${dirName}`);
+        terminal.writeLine(`Error creating directory: ${cwd}/${dirName}`);
     }
 }
 
 function removeDirectory(dirName) {
     try {
         fs.rmdirSync(cwd + '/' + dirName);
-        writeTerminalLine(`Directory removed: ${cwd}/${dirName}`);
+        terminal.writeLine(`Directory removed: ${cwd}/${dirName}`);
     } catch (e) {
-        writeTerminalLine(`Error removing directory: ${cwd}/${dirName}`);
+        terminal.writeLine(`Error removing directory: ${cwd}/${dirName}`);
     }
 }
 
 function listThemes() {
     let themes = fs.readdirSync('./themes');
     themes.forEach(function (theme) {
-        writeTerminalLine(theme.replaceAll('.css', ''));
+        terminal.writeLine(theme.replaceAll('.css', ''));
     });
 }
 
@@ -146,7 +147,7 @@ function changeTheme(args) {
         return;
     }
 
-    writeTerminalLine(`Theme not found: ${args[0]}`);
+    terminal.writeLine(`Theme not found: ${args[0]}`);
 }
 
 function focusEditor() {
@@ -155,51 +156,16 @@ function focusEditor() {
     document.getElementById('editor-text').scrollTop = 0;
 }
 
-function showAndFocusTerminal() {
-    document.getElementById('command-prompt').style.display = 'block';
-    document.getElementById('command-input').focus();
-}
-
-function hideTerminal() {
-    document.getElementById('command-prompt').style.display = 'none';
-    focusEditor();
-}
-
-function setTerminalCwd(newCwd) {
-    document.getElementById('command-path').textContent = newCwd;
-}
-
-function writeTerminalLine(line) {
-    let lineElement = document.createElement('p');
-    lineElement.classList.add('terminal-text');
-    lineElement.textContent = line;
-
-    if (line === '') {
-        lineElement = document.createElement('br');
-    }
-
-    document.getElementById('terminal-history').appendChild(lineElement);
-}
-
-function scrollTerminalToBottom() {
-    let terminalContent = document.getElementById('terminal-content');
-    terminalContent.scrollTop = terminalContent.scrollHeight;
-}
-
-function clearTerminal() {
-    document.getElementById('terminal-history').innerHTML = '';
-}
-
 function showHelp() {
     let data = fs.readFileSync('./help.txt', 'utf8');
     data.split('\r\n').forEach(function (line) {
-        writeTerminalLine(line);
+        terminal.writeLine(line);
     });
 }
 
 function newDocument() {
     document.getElementById('command-input').value = 'new';
-    showAndFocusTerminal();
+    terminal.showAndFocus();
 }
 
 function createNewDocument() {
@@ -218,19 +184,11 @@ function hideNotSavedIndicator() {
     document.getElementById('not-saved-indicator').style.display = 'none';
 }
 
-function toggleTerminal () {
-    if (document.getElementById('command-prompt').style.display === 'none') {
-        showAndFocusTerminal();
-    } else {
-        hideTerminal();
-    }
-}
-
 function saveCwf() {
     fs.writeFileSync(cwf, document.getElementById('editor-text').value, 'utf8');
-    writeTerminalLine(`File saved: ${cwf}`);
+    terminal.writeLine(`File saved: ${cwf}`);
     hideNotSavedIndicator();
-    showAndFocusTerminal();
+    terminal.showAndFocus();
 }
 
 // Main window events listeners
@@ -242,7 +200,7 @@ document.addEventListener('keydown', function (event) {
 
     if (keyBindings.toggleTerminal(event)) {
         event.preventDefault();
-        toggleTerminal();
+        terminal.toggle();
     }
 
     if (keyBindings.maximize(event)) {
@@ -265,7 +223,7 @@ document.getElementById('command-input').addEventListener('keydown', function (e
         let commandElement = document.getElementById('command-input');
         handleCommand(commandElement.value);
         commandElement.value = '';
-        scrollTerminalToBottom();
+        terminal.scrollToBottom();
         commandHistory.index = 0;
     }
 
@@ -312,8 +270,8 @@ nw.Window.get().on('restore', function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-    setTerminalCwd(cwd);
-    hideTerminal();
+    terminal.setCwd(cwd);
+    terminal.hide();
     config();
 });
 
