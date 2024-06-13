@@ -3,6 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const keyBindings = require('./key-bindings.js');
+const contextmenu = require('./contextmenu.js');
 
 let cwd = process.cwd().replaceAll('\\', '/');
 let cwf = '';
@@ -85,6 +86,7 @@ function saveFile(fileName) {
             document.getElementById('editor-text').value, 'utf8');
         cwf = cwd + '/' + fileName;
         writeTerminalLine(`File saved: ${cwf}`);
+        hideNotSavedIndicator();
     } catch (e) {
         writeTerminalLine(`Error saving file: ${cwd}/${fileName}`);
     }
@@ -224,6 +226,13 @@ function toggleTerminal () {
     }
 }
 
+function saveCwf() {
+    fs.writeFileSync(cwf, document.getElementById('editor-text').value, 'utf8');
+    writeTerminalLine(`File saved: ${cwf}`);
+    hideNotSavedIndicator();
+    showAndFocusTerminal();
+}
+
 // Main window events listeners
 document.addEventListener('keydown', function (event) {
     if (keyBindings.quit(event)) {
@@ -281,65 +290,13 @@ document.getElementById('command-prompt').addEventListener('click', function () 
 document.getElementById('editor-text').addEventListener('keydown', function (event) {
     if (keyBindings.saveFile(event) && cwf !== '') {
         event.preventDefault();
-        fs.writeFileSync(cwf, document.getElementById('editor-text').value, 'utf8');
-        writeTerminalLine(`File saved: ${cwf}`);
-        hideNotSavedIndicator();
-        showAndFocusTerminal();
+        saveCwf();
     } else if (keyBindings.newFile(event)) {
         event.preventDefault();
         newDocument();
     } else {
         showNotSavedIndicator();
     }
-});
-
-// context menu event listeners
-document.addEventListener('contextmenu', function (event) {
-    event.preventDefault();
-    let contextMenu = document.getElementById('context-menu');
-    contextMenu.style.display = 'flex';
-    contextMenu.style.top = `${event.clientY}px`;
-    if (event.clientY > window.innerHeight - 100) {
-        contextMenu.style.top = `${event.clientY - 100}px`;
-    }
-    contextMenu.style.left = `${event.clientX}px`;
-    if (event.clientX > window.innerWidth - 150) {
-        contextMenu.style.left = `${event.clientX - 150}px`;
-    }
-});
-
-document.addEventListener('click', function () {
-    document.getElementById('context-menu').style.display = 'none';
-});
-
-document.getElementById('cmkb').addEventListener('mouseover', function (event) {
-    if (event.clientX < window.innerWidth - 200) {
-        document.getElementById('key-bindings').style.display = 'flex';
-    }
-});
-
-document.getElementById('cmkb').addEventListener('mouseout', function () {
-    document.getElementById('key-bindings').style.display = 'none';
-});
-
-document.getElementById('cmtt').addEventListener('click', function () {
-    toggleTerminal();
-});
-
-document.getElementById('cmsv').addEventListener('click', function () {
-    if (cwf !== '') {
-        fs.writeFileSync(cwf, document.getElementById('editor-text').value, 'utf8');
-        writeTerminalLine(`File saved: ${cwf}`);
-        hideNotSavedIndicator();
-    }
-});
-
-document.getElementById('cmnw').addEventListener('click', function () {
-    newDocument();
-});
-
-document.getElementById('cmqt').addEventListener('click', function () {
-    nw.App.quit();
 });
 
 nw.Window.get().on('focus', function () {
@@ -359,3 +316,5 @@ document.addEventListener('DOMContentLoaded', function () {
     hideTerminal();
     config();
 });
+
+contextmenu.addListeners();

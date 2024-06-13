@@ -88,9 +88,7 @@
 
         saveButton.addEventListener('click', function () {
             if (cwf !== '') {
-                fs.writeFileSync(cwf, document.getElementById('editor-text').value, 'utf8');
-                writeTerminalLine(`File saved: ${cwf}`);
-                hideNotSavedIndicator();
+                saveCwf();
             }
         });
 
