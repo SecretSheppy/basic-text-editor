@@ -262,9 +262,11 @@ document.getElementById('command-prompt').addEventListener('click', function () 
 
 // Editor event listeners
 document.getElementById('editor-text').addEventListener('keydown', function (event) {
-    if (event.ctrlKey && event.key === 's') {
+    if (event.ctrlKey && event.key === 's' && cwf !== '') {
         event.preventDefault();
-        // TODO: Save contents of file
+        fs.writeFileSync(cwf, document.getElementById('editor-text').value, 'utf8');
+        writeTerminalLine(`File saved: ${cwf}`);
+        showAndFocusTerminal();
     }
 
     if (event.ctrlKey && event.key === 'n') {
