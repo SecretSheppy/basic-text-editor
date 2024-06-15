@@ -42,6 +42,15 @@
     }
 
     /**
+     * Returns the current text in the editor textarea.
+     *
+     * @returns {string} The text contained in the editor.
+     */
+    function getText() {
+        return editor.value;
+    }
+
+    /**
      * Adds the event listeners to the editor text area
      */
     function addListeners() {
@@ -65,6 +74,7 @@
         showNotSavedIndicator,
         hideNotSavedIndicator,
         addListeners,
-        setText
+        setText,
+        getText
     }
 })();
