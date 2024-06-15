@@ -71,11 +71,24 @@
         }
     }
 
+
+    function makeDirectory(dirName) {
+        let fullPath = environment.cwd + '/' + dirName;
+
+        try {
+            fs.mkdirSync(fullPath);
+            terminal.writeLine(`Directory created: ${fullPath}`);
+        } catch (e) {
+            terminal.writeLine(`Error creating directory: ${fullPath}`);
+        }
+    }
+
     module.exports = exports = {
         scanDirectory,
         changeDirectory,
         openFile,
         saveFile,
-        removeFile
+        removeFile,
+        makeDirectory
     }
 })();
