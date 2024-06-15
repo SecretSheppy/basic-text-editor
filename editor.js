@@ -2,6 +2,7 @@
     'use strict';
 
     const environment = require('./environment.js');
+    const keyBindings = require('./key-bindings.js');
 
     let editor = document.getElementById('editor-text');
     let notSavedIndicator = document.getElementById('not-saved-indicator');
@@ -31,9 +32,26 @@
         notSavedIndicator.style.display = 'none';
     }
 
+    function addListeners() {
+
+        editor.addEventListener('keydown', function (event) {
+            if (keyBindings.saveFile(event) && environment.cwf !== '') {
+                event.preventDefault();
+                saveCwf();
+            } else if (keyBindings.newFile(event)) {
+                event.preventDefault();
+                newDocument();
+            } else {
+                editor.showNotSavedIndicator();
+            }
+
+        });
+    }
+
     module.exports = exports = {
         focus,
         showNotSavedIndicator,
-        hideNotSavedIndicator
+        hideNotSavedIndicator,
+        addListeners
     }
 })();

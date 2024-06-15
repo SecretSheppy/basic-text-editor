@@ -201,19 +201,6 @@ document.addEventListener('keydown', function (event) {
     }
 });
 
-// Editor event listeners
-document.getElementById('editor-text').addEventListener('keydown', function (event) {
-    if (keyBindings.saveFile(event) && environment.cwf !== '') {
-        event.preventDefault();
-        saveCwf();
-    } else if (keyBindings.newFile(event)) {
-        event.preventDefault();
-        newDocument();
-    } else {
-        editor.showNotSavedIndicator();
-    }
-});
-
 nw.Window.get().on('focus', function () {
     editor.focus();
 });
@@ -232,5 +219,6 @@ document.addEventListener('DOMContentLoaded', function () {
     config();
 });
 
+editor.addListeners();
 terminal.addListeners();
 contextmenu.addListeners();
