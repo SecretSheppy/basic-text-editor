@@ -13,7 +13,7 @@
 
     function scanDirectory(path) {
         fs.readdirSync(path).forEach(function (file) {
-            if (fs.lstatSync(file).isDirectory()) {
+            if (fs.lstatSync(path + '/' + file).isDirectory()) {
                 terminal.writeDirectoryLine(file);
             } else {
                 terminal.writeLine(file);
