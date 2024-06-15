@@ -33,6 +33,15 @@
     }
 
     /**
+     * Sets the text of the editor to the provided text.
+     *
+     * @param {string} text The text to set the editor to.
+     */
+    function setText(text) {
+        editor.value = text;
+    }
+
+    /**
      * Adds the event listeners to the editor text area
      */
     function addListeners() {
@@ -55,6 +64,7 @@
         focus,
         showNotSavedIndicator,
         hideNotSavedIndicator,
-        addListeners
+        addListeners,
+        setText
     }
 })();
