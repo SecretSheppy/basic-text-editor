@@ -25,7 +25,7 @@ const commandHandlers = {
     ls: () => files.scanDirectory(environment.cwd),
     cd: (args) => files.changeDirectory(args[0]),
     open: (args) => files.openFile(args[0]),
-    save: (args) => saveFile(args[0]),
+    save: (args) => files.saveFile(args[0]),
     rm: (args) => removeFile(args[0]),
     mkdir: (args) => makeDirectory(args[0]),
     rmdir: (args) => removeDirectory(args[0]),
@@ -53,18 +53,6 @@ function handleCommand(command) {
 function config() {
     let config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
     changeTheme([config.theme]);
-}
-
-function saveFile(fileName) {
-    try {
-        fs.writeFileSync(environment.cwd + '/' + fileName,
-            document.getElementById('editor-text').value, 'utf8');
-        environment.cwf = environment.cwd + '/' + fileName;
-        terminal.writeLine(`File saved: ${environment.cwf}`);
-        editor.hideNotSavedIndicator();
-    } catch (e) {
-        terminal.writeLine(`Error saving file: ${environment.cwd}/${fileName}`);
-    }
 }
 
 function removeFile(fileName) {

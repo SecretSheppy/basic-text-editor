@@ -38,9 +38,24 @@
         }
     }
 
+    function saveFile(fileName) {
+        let fullPath = environment.cwd + '/' + fileName;
+
+        try {
+            fs.writeFileSync(fullPath, editor.getText(), 'utf8');
+            environment.cwf = fullPath;
+            terminal.writeLine(`File saved: ${environment.cwf}`);
+            editor.hideNotSavedIndicator();
+        } catch (e) {
+            terminal.writeLine(`Error saving file: ${fullPath}`);
+        }
+    }
+
+
     module.exports = exports = {
         scanDirectory,
         changeDirectory,
-        openFile
+        openFile,
+        saveFile
     }
 })();
