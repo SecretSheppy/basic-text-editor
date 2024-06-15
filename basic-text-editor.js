@@ -24,7 +24,7 @@ const commandHandlers = {
     clear: terminal.clear,
     ls: () => files.scanDirectory(environment.cwd),
     cd: (args) => files.changeDirectory(args[0]),
-    open: (args) => openFile(args[0]),
+    open: (args) => files.openFile(args[0]),
     save: (args) => saveFile(args[0]),
     rm: (args) => removeFile(args[0]),
     mkdir: (args) => makeDirectory(args[0]),
@@ -53,17 +53,6 @@ function handleCommand(command) {
 function config() {
     let config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
     changeTheme([config.theme]);
-}
-
-function openFile(file) {
-    try {
-        document.getElementById('editor-text').value =
-            fs.readFileSync(environment.cwd + '/' + file, 'utf8');
-        environment.cwf = environment.cwd + '/' + file;
-        editor.hideNotSavedIndicator();
-    } catch (e) {
-        terminal.writeLine(`File not found: ${environment.cwd}/${file}`);
-    }
 }
 
 function saveFile(fileName) {

@@ -5,6 +5,7 @@
     const path = require('path');
     const environment = require('./environment.js')
     const terminal = require('./terminal.js');
+    const editor = require('./editor.js');
 
     function normalizePath(fullPath) {
         return path.resolve(fullPath).replaceAll('\\', '/');
@@ -27,8 +28,19 @@
         }
     }
 
+    function openFile(file) {
+        try {
+            editor.setText(fs.readFileSync(environment.cwd + '/' + file, 'utf8'));
+            environment.cwf = environment.cwd + '/' + file;
+            editor.hideNotSavedIndicator();
+        } catch (e) {
+            terminal.writeLine(`File not found: ${environment.cwd}/${file}`);
+        }
+    }
+
     module.exports = exports = {
         scanDirectory,
-        changeDirectory
+        changeDirectory,
+        openFile
     }
 })();
