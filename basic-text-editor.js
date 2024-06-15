@@ -23,7 +23,7 @@ const commandHandlers = {
     cls: terminal.clear,
     clear: terminal.clear,
     ls: () => files.scanDirectory(environment.cwd),
-    cd: (args) => currentDirectory(args[0]),
+    cd: (args) => files.changeDirectory(args[0]),
     open: (args) => openFile(args[0]),
     save: (args) => saveFile(args[0]),
     rm: (args) => removeFile(args[0]),
@@ -53,17 +53,6 @@ function handleCommand(command) {
 function config() {
     let config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
     changeTheme([config.theme]);
-}
-
-function currentDirectory(newPath) {
-    let tempDir = environment.cwd + '/' + newPath;
-
-    if (fs.existsSync(tempDir)) {
-        environment.cwd = path.resolve(tempDir).replaceAll('\\', '/');
-        terminal.setCwd(environment.cwd);
-    } else {
-        terminal.writeLine(`Directory not found: ${newPath}`);
-    }
 }
 
 function openFile(file) {
