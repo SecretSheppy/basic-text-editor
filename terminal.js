@@ -23,7 +23,7 @@
      */
     function hide() {
         terminal.style.display = 'none';
-        editor.focusEditor();
+        editor.focus();
     }
 
     /**

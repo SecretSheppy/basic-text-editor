@@ -76,7 +76,7 @@ function openFile(file) {
         document.getElementById('editor-text').value =
             fs.readFileSync(environment.cwd + '/' + file, 'utf8');
         environment.cwf = environment.cwd + '/' + file;
-        hideNotSavedIndicator();
+        editor.hideNotSavedIndicator();
     } catch (e) {
         terminal.writeLine(`File not found: ${environment.cwd}/${file}`);
     }
@@ -88,7 +88,7 @@ function saveFile(fileName) {
             document.getElementById('editor-text').value, 'utf8');
         environment.cwf = environment.cwd + '/' + fileName;
         terminal.writeLine(`File saved: ${environment.cwf}`);
-        hideNotSavedIndicator();
+        editor.hideNotSavedIndicator();
     } catch (e) {
         terminal.writeLine(`Error saving file: ${environment.cwd}/${fileName}`);
     }
@@ -166,23 +166,13 @@ function newDocument() {
 function createNewDocument() {
     document.getElementById('editor-text').value = '';
     environment.cwf = '';
-    hideNotSavedIndicator();
-}
-
-function showNotSavedIndicator() {
-    document.title = `Text Editor - *${environment.cwf}`;
-    document.getElementById('not-saved-indicator').style.display = 'block';
-}
-
-function hideNotSavedIndicator() {
-    document.title = `Text Editor - ${environment.cwf}`;
-    document.getElementById('not-saved-indicator').style.display = 'none';
+    editor.hideNotSavedIndicator();
 }
 
 function saveCwf() {
     fs.writeFileSync(environment.cwf, document.getElementById('editor-text').value, 'utf8');
     terminal.writeLine(`File saved: ${environment.cwf}`);
-    hideNotSavedIndicator();
+    editor.hideNotSavedIndicator();
     terminal.showAndFocus();
 }
 
@@ -220,12 +210,12 @@ document.getElementById('editor-text').addEventListener('keydown', function (eve
         event.preventDefault();
         newDocument();
     } else {
-        showNotSavedIndicator();
+        editor.showNotSavedIndicator();
     }
 });
 
 nw.Window.get().on('focus', function () {
-    editor.focusEditor();
+    editor.focus();
 });
 
 nw.Window.get().on('maximize', function () {
