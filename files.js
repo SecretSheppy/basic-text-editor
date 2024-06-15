@@ -59,11 +59,23 @@
         }
     }
 
+    function removeFile(fileName) {
+        let fullPath = environment.cwd + '/' + fileName;
+
+        try {
+            fs.unlinkSync(fullPath);
+            terminal.writeLine(`File removed: ${fullPath}`);
+            environment.cwf = '';
+        } catch (e) {
+            terminal.writeLine(`Error removing file: ${fullPath}`);
+        }
+    }
 
     module.exports = exports = {
         scanDirectory,
         changeDirectory,
         openFile,
-        saveFile
+        saveFile,
+        removeFile
     }
 })();
