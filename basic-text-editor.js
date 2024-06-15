@@ -28,7 +28,7 @@ const commandHandlers = {
     save: (args) => files.saveFile(args[0]),
     rm: (args) => files.removeFile(args[0]),
     mkdir: (args) => files.makeDirectory(args[0]),
-    rmdir: (args) => removeDirectory(args[0]),
+    rmdir: (args) => files.removeDirectory(args[0]),
     explorer: () => nw.Shell.openExternal(environment.cwd),
     themes: listThemes,
     theme: (args) => changeTheme(args),
@@ -53,15 +53,6 @@ function handleCommand(command) {
 function config() {
     let config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
     changeTheme([config.theme]);
-}
-
-function removeDirectory(dirName) {
-    try {
-        fs.rmdirSync(environment.cwd + '/' + dirName);
-        terminal.writeLine(`Directory removed: ${environment.cwd}/${dirName}`);
-    } catch (e) {
-        terminal.writeLine(`Error removing directory: ${environment.cwd}/${dirName}`);
-    }
 }
 
 function listThemes() {

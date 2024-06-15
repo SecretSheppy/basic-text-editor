@@ -71,7 +71,6 @@
         }
     }
 
-
     function makeDirectory(dirName) {
         let fullPath = environment.cwd + '/' + dirName;
 
@@ -83,12 +82,24 @@
         }
     }
 
+    function removeDirectory(dirName) {
+        let fullPath = environment.cwd + '/' + dirName;
+
+        try {
+            fs.rmdirSync(fullPath);
+            terminal.writeLine(`Directory removed: ${fullPath}`);
+        } catch (e) {
+            terminal.writeLine(`Error removing directory: ${fullPath}`);
+        }
+    }
+
     module.exports = exports = {
         scanDirectory,
         changeDirectory,
         openFile,
         saveFile,
         removeFile,
-        makeDirectory
+        makeDirectory,
+        removeDirectory
     }
 })();
