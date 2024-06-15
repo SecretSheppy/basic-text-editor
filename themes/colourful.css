@@ -9,6 +9,7 @@
     --terminal-text-color: #ffffff;
     --terminal-scrollbar-color: #ffdada;
     --terminal-scrollbar-hover-color: #ffc6c6;
+    --terminal-directory-color: #e54141;
 
     --editor-text-font-family: 'Courier New', Courier, monospace;
     --editor-text-font-size: 15px;

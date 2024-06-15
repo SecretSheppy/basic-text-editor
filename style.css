@@ -73,10 +73,16 @@
     bottom: 0;
     padding: 20px;
 
+    & .terminal-directory,
     & .terminal-text {
         font-family: var(--terminal-font-family);
         font-size: var(--terminal-font-size);
         color: var(--terminal-text-color);
+    }
+
+    & .terminal-directory {
+        color: var(--terminal-directory-color);
+        font-weight: bold;
     }
 
     & .terminal-empty-line {

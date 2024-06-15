@@ -52,6 +52,17 @@
         terminalHistory.appendChild(lineElement);
     }
 
+    function writeDirectoryLine(directory) {
+        let lineElement = document.createElement('p');
+        lineElement.classList.add('terminal-directory');
+        lineElement.textContent = directory;
+        terminalHistory.appendChild(lineElement);
+    }
+
+    function writeError(error) {
+        // TODO:
+    }
+
     /**
      * Scrolls the terminal to the bottom.
      */
@@ -113,6 +124,8 @@
         hide,
         setCwd,
         writeLine,
+        writeDirectoryLine,
+        writeError,
         scrollToBottom,
         clear,
         toggle,
