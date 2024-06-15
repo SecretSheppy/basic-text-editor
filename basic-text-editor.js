@@ -6,6 +6,7 @@ const keyBindings = require('./key-bindings.js');
 const environment = require('./environment.js');
 const contextmenu = require('./contextmenu.js');
 const terminal = require('./terminal.js');
+const editor = require('./editor.js');
 
 environment.cwd = process.cwd().replaceAll('\\', '/');
 
@@ -150,12 +151,6 @@ function changeTheme(args) {
     terminal.writeLine(`Theme not found: ${args[0]}`);
 }
 
-function focusEditor() {
-    document.getElementById('editor-text').focus();
-    document.getElementById('editor-text').setSelectionRange(0, 0);
-    document.getElementById('editor-text').scrollTop = 0;
-}
-
 function showHelp() {
     let data = fs.readFileSync('./help.txt', 'utf8');
     data.split('\r\n').forEach(function (line) {
@@ -230,7 +225,7 @@ document.getElementById('editor-text').addEventListener('keydown', function (eve
 });
 
 nw.Window.get().on('focus', function () {
-    focusEditor();
+    editor.focusEditor();
 });
 
 nw.Window.get().on('maximize', function () {

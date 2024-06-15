@@ -2,6 +2,7 @@
     'use strict';
 
     const keyBindings = require('./key-bindings.js');
+    const editor = require('./editor.js');
 
     let terminal = document.getElementById('command-prompt');
     let terminalHistory = document.getElementById('terminal-history');
@@ -22,7 +23,7 @@
      */
     function hide() {
         terminal.style.display = 'none';
-        focusEditor();
+        editor.focusEditor();
     }
 
     /**
