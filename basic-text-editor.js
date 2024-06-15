@@ -7,6 +7,7 @@ const environment = require('./environment.js');
 const contextmenu = require('./contextmenu.js');
 const terminal = require('./terminal.js');
 const editor = require('./editor.js');
+const files = require('./files.js');
 
 environment.cwd = process.cwd().replaceAll('\\', '/');
 
@@ -21,7 +22,7 @@ const commandHandlers = {
     help: showHelp,
     cls: terminal.clear,
     clear: terminal.clear,
-    ls: () => scanDirectory(environment.cwd),
+    ls: () => files.scanDirectory(environment.cwd),
     cd: (args) => currentDirectory(args[0]),
     open: (args) => openFile(args[0]),
     save: (args) => saveFile(args[0]),
@@ -52,12 +53,6 @@ function handleCommand(command) {
 function config() {
     let config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
     changeTheme([config.theme]);
-}
-
-function scanDirectory(path) {
-    fs.readdirSync(path).forEach(function (file) {
-        terminal.writeLine(file);
-    });
 }
 
 function currentDirectory(newPath) {
