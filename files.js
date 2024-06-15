@@ -24,10 +24,14 @@
     function changeDirectory(newPath) {
         let tempDir = environment.cwd + '/' + newPath;
 
-        if (fs.existsSync(tempDir)) {
-            environment.cwd = normalizePath(tempDir);
-            terminal.setCwd(environment.cwd);
-        } else {
+        try {
+            if (fs.lstatSync(tempDir).isDirectory()) {
+                environment.cwd = normalizePath(tempDir);
+                terminal.setCwd(environment.cwd);
+            } else {
+                terminal.writeLine(`Not a directory: ${newPath}`);
+            }
+        } catch (e) {
             terminal.writeLine(`Directory not found: ${newPath}`);
         }
     }
