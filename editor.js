@@ -32,6 +32,9 @@
         notSavedIndicator.style.display = 'none';
     }
 
+    /**
+     * Adds the event listeners to the editor text area
+     */
     function addListeners() {
 
         editor.addEventListener('keydown', function (event) {
@@ -42,7 +45,7 @@
                 event.preventDefault();
                 newDocument();
             } else {
-                editor.showNotSavedIndicator();
+                showNotSavedIndicator();
             }
 
         });
