@@ -6,6 +6,7 @@ const keyBindings = require('./key-bindings.js');
 const environment = require('./environment.js');
 const contextmenu = require('./contextmenu.js');
 const terminal = require('./terminal.js');
+const terminalOut = require('./terminal-out.js');
 const editor = require('./editor.js');
 const files = require('./files.js');
 
@@ -36,7 +37,7 @@ const commandHandlers = {
 };
 
 function handleCommand(command) {
-    terminal.writeLine(`${environment.cwd} $ ${command}`);
+    terminalOut.writeLine(`${environment.cwd} $ ${command}`);
 
     let commandChain = command.trim().split(' ');
     let commandName = commandChain[0];
@@ -44,7 +45,7 @@ function handleCommand(command) {
     if (commandName in commandHandlers) {
         commandHandlers[commandName](commandChain.slice(1));
     } else {
-        terminal.writeLine(`Command not found: ${commandName}`);
+        terminalOut.writeLine(`Command not found: ${commandName}`);
     }
 
     commandHistory.data.unshift(command);
@@ -58,7 +59,7 @@ function config() {
 function listThemes() {
     let themes = fs.readdirSync('./themes');
     themes.forEach(function (theme) {
-        terminal.writeLine(theme.replaceAll('.css', ''));
+        terminalOut.writeLine(theme.replaceAll('.css', ''));
     });
 }
 
@@ -81,13 +82,13 @@ function changeTheme(args) {
         return;
     }
 
-    terminal.writeLine(`Theme not found: ${args[0]}`);
+    terminalOut.writeLine(`Theme not found: ${args[0]}`);
 }
 
 function showHelp() {
     let data = fs.readFileSync('./help.txt', 'utf8');
     data.split('\r\n').forEach(function (line) {
-        terminal.writeLine(line);
+        terminalOut.writeLine(line);
     });
 }
 
@@ -104,7 +105,7 @@ function createNewDocument() {
 
 function saveCwf() {
     fs.writeFileSync(environment.cwf, document.getElementById('editor-text').value, 'utf8');
-    terminal.writeLine(`File saved: ${environment.cwf}`);
+    terminalOut.writeLine(`File saved: ${environment.cwf}`);
     editor.hideNotSavedIndicator();
     terminal.showAndFocus();
 }

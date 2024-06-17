@@ -3,7 +3,8 @@
 
     const fs = require('fs');
     const path = require('path');
-    const environment = require('./environment.js')
+    const terminalOut = require('./terminal-out.js');
+    const environment = require('./environment.js');
     const terminal = require('./terminal.js');
     const editor = require('./editor.js');
 
@@ -32,9 +33,9 @@
     function scanDirectory(path) {
         fs.readdirSync(path).forEach(function (file) {
             if (fs.lstatSync(path + '/' + file).isDirectory()) {
-                terminal.writeDirectoryLine(file);
+                terminalOut.writeDirectoryLine(file);
             } else {
-                terminal.writeLine(file);
+                terminalOut.writeLine(file);
             }
         });
     }
@@ -58,10 +59,10 @@
                 environment.cwd = normalizePath(tempDir);
                 terminal.setCwd(environment.cwd);
             } else {
-                terminal.writeLine(`Not a directory: ${directory}`);
+                terminalOut.writeLine(`Not a directory: ${directory}`);
             }
         } catch (e) {
-            terminal.writeLine(`Directory not found: ${directory}`);
+            terminalOut.writeLine(`Directory not found: ${directory}`);
         }
     }
 
@@ -79,7 +80,7 @@
             environment.cwf = environment.cwd + '/' + file;
             editor.hideNotSavedIndicator();
         } catch (e) {
-            terminal.writeLine(`File not found: ${environment.cwd}/${file}`);
+            terminalOut.writeLine(`File not found: ${environment.cwd}/${file}`);
         }
     }
 
@@ -95,10 +96,10 @@
         try {
             fs.writeFileSync(fullPath, editor.getText(), 'utf8');
             environment.cwf = fullPath;
-            terminal.writeLine(`File saved: ${environment.cwf}`);
+            terminalOut.writeLine(`File saved: ${environment.cwf}`);
             editor.hideNotSavedIndicator();
         } catch (e) {
-            terminal.writeLine(`Error saving file: ${fullPath}`);
+            terminalOut.writeLine(`Error saving file: ${fullPath}`);
         }
     }
 
@@ -116,10 +117,10 @@
 
         try {
             fs.unlinkSync(fullPath);
-            terminal.writeLine(`File removed: ${fullPath}`);
+            terminalOut.writeLine(`File removed: ${fullPath}`);
             environment.cwf = '';
         } catch (e) {
-            terminal.writeLine(`Error removing file: ${fullPath}`);
+            terminalOut.writeLine(`Error removing file: ${fullPath}`);
         }
     }
 
@@ -134,9 +135,9 @@
 
         try {
             fs.mkdirSync(fullPath);
-            terminal.writeLine(`Directory created: ${fullPath}`);
+            terminalOut.writeLine(`Directory created: ${fullPath}`);
         } catch (e) {
-            terminal.writeLine(`Error creating directory: ${fullPath}`);
+            terminalOut.writeLine(`Error creating directory: ${fullPath}`);
         }
     }
 
@@ -152,9 +153,9 @@
 
         try {
             fs.rmdirSync(fullPath);
-            terminal.writeLine(`Directory removed: ${fullPath}`);
+            terminalOut.writeLine(`Directory removed: ${fullPath}`);
         } catch (e) {
-            terminal.writeLine(`Error removing directory: ${fullPath}`);
+            terminalOut.writeLine(`Error removing directory: ${fullPath}`);
         }
     }
 
