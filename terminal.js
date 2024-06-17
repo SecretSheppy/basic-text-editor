@@ -3,12 +3,11 @@
 
     const keyBindings = require('./key-bindings.js');
     const editor = require('./editor.js');
+    const handler = require('./command-handler.js');
+    const terminalOut = require('./terminal-out.js')
 
     let terminal = document.getElementById('command-prompt');
-    let terminalHistory = document.getElementById('terminal-history');
-    let terminalContent = document.getElementById('terminal-content');
     let terminalInput = document.getElementById('command-input');
-    let terminalPath = document.getElementById('command-path');
 
     /**
      * Shows the terminal and focuses the input field.
@@ -24,29 +23,6 @@
     function hide() {
         terminal.style.display = 'none';
         editor.focus();
-    }
-
-    /**
-     * Sets the terminal prompt path to the given path.
-     *
-     * @param {string} newCwd the new path to display in the terminal prompt.
-     */
-    function setCwd(newCwd) {
-        terminalPath.textContent = newCwd;
-    }
-
-    /**
-     * Scrolls the terminal to the bottom.
-     */
-    function scrollToBottom() {
-        terminalContent.scrollTop = terminalContent.scrollHeight;
-    }
-
-    /**
-     * Clears the terminal history section of the terminal.
-     */
-    function clear() {
-        terminalHistory.innerHTML = '';
     }
 
     /**
@@ -68,9 +44,9 @@
         terminalInput.addEventListener('keydown', function (event) {
             if (keyBindings.submitCommand(event)) {
                 event.preventDefault();
-                handleCommand(terminalInput.value);
+                handler.handle(terminalInput.value);
                 terminalInput.value = '';
-                scrollToBottom();
+                terminalOut.scrollToBottom();
                 commandHistory.index = 0;
             }
 
@@ -94,9 +70,6 @@
     module.exports = exports = {
         showAndFocus,
         hide,
-        setCwd,
-        scrollToBottom,
-        clear,
         toggle,
         addListeners
     }

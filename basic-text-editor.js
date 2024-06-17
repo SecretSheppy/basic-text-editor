@@ -17,40 +17,6 @@ let commandHistory = {
     index: 0,
 };
 
-const commandHandlers = {
-    exit: terminal.hide,
-    quit: () => nw.App.quit(),
-    help: showHelp,
-    cls: terminal.clear,
-    clear: terminal.clear,
-    ls: () => files.scanDirectory(environment.cwd),
-    cd: (args) => files.changeDirectory(args[0]),
-    open: (args) => files.openFile(args[0]),
-    save: (args) => files.saveFile(args[0]),
-    rm: (args) => files.removeFile(args[0]),
-    mkdir: (args) => files.makeDirectory(args[0]),
-    rmdir: (args) => files.removeDirectory(args[0]),
-    explorer: () => nw.Shell.openExternal(environment.cwd),
-    themes: listThemes,
-    theme: (args) => changeTheme(args),
-    new: createNewDocument
-};
-
-function handleCommand(command) {
-    terminalOut.writeLine(`${environment.cwd} $ ${command}`);
-
-    let commandChain = command.trim().split(' ');
-    let commandName = commandChain[0];
-
-    if (commandName in commandHandlers) {
-        commandHandlers[commandName](commandChain.slice(1));
-    } else {
-        terminalOut.writeLine(`Command not found: ${commandName}`);
-    }
-
-    commandHistory.data.unshift(command);
-}
-
 function config() {
     let config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
     changeTheme([config.theme]);
@@ -148,7 +114,7 @@ nw.Window.get().on('restore', function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-    terminal.setCwd(environment.cwd);
+    terminalOut.setCwd(environment.cwd);
     terminal.hide();
     config();
 });

@@ -2,6 +2,8 @@
     'use strict';
 
     let terminalHistory = document.getElementById('terminal-history');
+    let terminalPath = document.getElementById('command-path');
+    let terminalContent = document.getElementById('terminal-content');
 
     /**
      * Writes a line to the terminal.
@@ -31,9 +33,35 @@
         // TODO:
     }
 
+    /**
+     * Sets the terminal prompt path to the given path.
+     *
+     * @param {string} newCwd the new path to display in the terminal prompt.
+     */
+    function setCwd(newCwd) {
+        terminalPath.textContent = newCwd;
+    }
+
+    /**
+     * Scrolls the terminal to the bottom.
+     */
+    function scrollToBottom() {
+        terminalContent.scrollTop = terminalContent.scrollHeight;
+    }
+
+    /**
+     * Clears the terminal history section of the terminal.
+     */
+    function clear() {
+        terminalHistory.innerHTML = '';
+    }
+
     module.exports = exports = {
         writeLine,
         writeDirectoryLine,
-        writeError
+        writeError,
+        setCwd,
+        clear,
+        scrollToBottom
     }
 })();

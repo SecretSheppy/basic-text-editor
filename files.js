@@ -57,7 +57,7 @@
         try {
             if (fs.lstatSync(tempDir).isDirectory()) {
                 environment.cwd = normalizePath(tempDir);
-                terminal.setCwd(environment.cwd);
+                terminalOut.setCwd(environment.cwd);
             } else {
                 terminalOut.writeLine(`Not a directory: ${directory}`);
             }
