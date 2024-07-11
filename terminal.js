@@ -2,39 +2,11 @@
     'use strict';
 
     const keyBindings = require('./key-bindings.js');
-    const editor = require('./editor.js');
     const handler = require('./command-handler.js');
     const terminalOut = require('./terminal-out.js')
 
     let terminal = document.getElementById('command-prompt');
     let terminalInput = document.getElementById('command-input');
-
-    /**
-     * Shows the terminal and focuses the input field.
-     */
-    function showAndFocus() {
-        terminal.style.display = 'block';
-        terminalInput.focus();
-    }
-
-    /**
-     * Hides the terminal and focuses the editor.
-     */
-    function hide() {
-        terminal.style.display = 'none';
-        editor.focus();
-    }
-
-    /**
-     * Toggles visibility of the terminal.
-     */
-    function toggle () {
-        if (terminal.style.display === 'none') {
-            showAndFocus();
-        } else {
-            hide();
-        }
-    }
 
     /**
      * Adds the terminal listeners to the main application.
@@ -68,9 +40,6 @@
     }
 
     module.exports = exports = {
-        showAndFocus,
-        hide,
-        toggle,
         addListeners
     }
 })();

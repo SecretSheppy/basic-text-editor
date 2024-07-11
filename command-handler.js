@@ -2,12 +2,12 @@
     'use strict';
 
     const environment = require('./environment.js');
-    const terminal = require('./terminal.js');
+    const tControls = require('./terminal-controls.js');
     const files = require('./files.js');
     const terminalOut = require('./terminal-out.js');
 
     const commandHandlers = {
-        exit: terminal.hide,
+        exit: tControls.hide,
         quit: () => nw.App.quit(),
         help: showHelp,
         cls: terminalOut.clear,

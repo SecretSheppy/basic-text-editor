@@ -6,6 +6,7 @@ const keyBindings = require('./key-bindings.js');
 const environment = require('./environment.js');
 const contextmenu = require('./contextmenu.js');
 const terminal = require('./terminal.js');
+const tControls = require('./terminal-controls.js');
 const terminalOut = require('./terminal-out.js');
 const editor = require('./editor.js');
 const files = require('./files.js');
@@ -60,7 +61,7 @@ function showHelp() {
 
 function newDocument() {
     document.getElementById('command-input').value = 'new';
-    terminal.showAndFocus();
+    tControls.showAndFocus();
 }
 
 function createNewDocument() {
@@ -73,7 +74,7 @@ function saveCwf() {
     fs.writeFileSync(environment.cwf, document.getElementById('editor-text').value, 'utf8');
     terminalOut.writeLine(`File saved: ${environment.cwf}`);
     editor.hideNotSavedIndicator();
-    terminal.showAndFocus();
+    tControls.showAndFocus();
 }
 
 // Main window events listeners
@@ -85,7 +86,7 @@ document.addEventListener('keydown', function (event) {
 
     if (keyBindings.toggleTerminal(event)) {
         event.preventDefault();
-        terminal.toggle();
+        tControls.toggle();
     }
 
     if (keyBindings.maximize(event)) {
@@ -115,7 +116,7 @@ nw.Window.get().on('restore', function () {
 
 document.addEventListener('DOMContentLoaded', function () {
     terminalOut.setCwd(environment.cwd);
-    terminal.hide();
+    tControls.hide();
     config();
 });
 
