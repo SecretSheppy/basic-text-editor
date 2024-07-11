@@ -1,7 +1,6 @@
 'use strict';
 
 const fs = require('fs');
-const path = require('path');
 const keyBindings = require('./key-bindings.js');
 const environment = require('./environment.js');
 const contextmenu = require('./contextmenu.js');
@@ -9,7 +8,6 @@ const terminal = require('./terminal.js');
 const tControls = require('./terminal-controls.js');
 const terminalOut = require('./terminal-out.js');
 const editor = require('./editor.js');
-const files = require('./files.js');
 
 environment.cwd = process.cwd().replaceAll('\\', '/');
 
