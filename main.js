@@ -1,13 +1,13 @@
 'use strict';
 
 const fs = require('fs');
-const keyBindings = require('./key-bindings.js');
-const environment = require('./environment.js');
-const contextmenu = require('./contextmenu.js');
-const terminal = require('./terminal.js');
-const tControls = require('./terminal-controls.js');
-const terminalOut = require('./terminal-out.js');
-const editor = require('./editor.js');
+const keyBindings = require('./scripts/key-bindings.js');
+const environment = require('./scripts/environment.js');
+const contextmenu = require('./scripts/contextmenu.js');
+const terminal = require('./scripts/terminal.js');
+const tControls = require('./scripts/terminal-controls.js');
+const terminalOut = require('./scripts/terminal-out.js');
+const editor = require('./scripts/editor.js');
 
 environment.cwd = process.cwd().replaceAll('\\', '/');
 
@@ -17,7 +17,7 @@ let commandHistory = {
 };
 
 function config() {
-    let config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
+    let config = JSON.parse(fs.readFileSync('./data/config.json', 'utf8'));
     changeTheme([config.theme]);
 }
 
@@ -38,9 +38,9 @@ function changeTheme(args) {
         document.head.appendChild(linkElement);
 
         if (args[1] === '--save') {
-            let config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
+            let config = JSON.parse(fs.readFileSync('./data/config.json', 'utf8'));
             config.theme = args[0];
-            fs.writeFileSync('./config.json', JSON.stringify(config,
+            fs.writeFileSync('./data/config.json', JSON.stringify(config,
                 null, 4), 'utf8');
         }
 
@@ -51,7 +51,7 @@ function changeTheme(args) {
 }
 
 function showHelp() {
-    let data = fs.readFileSync('./help.txt', 'utf8');
+    let data = fs.readFileSync('./txt/help.txt', 'utf8');
     data.split('\r\n').forEach(function (line) {
         terminalOut.writeLine(line);
     });
